@@ -26,13 +26,13 @@
 	<meta name="description" content="Svelte demo app" />
 </svelte:head>
 
-<section class="flex flex-col justify-center gap-12 max-lg:pt-2 lg:pt-6">
+<section class="flex flex-col justify-center gap-12 pt-6 max-lg:pt-2 max-md:gap-8 max-md:pt-0">
 	{#each data.menu as category (category.id)}
-		<div class="relative flex flex-col gap-1 rounded-2xl border border-stone-500 p-6">
+		<div class="relative flex flex-col gap-1 rounded-3xl border border-stone-500 p-6 max-md:p-4">
 			<h2
 				class={cn(
 					debugMode && hasTypos(category.name) && 'bg-red-400',
-					'absolute -top-6 bg-amber-50 px-2 text-3xl'
+					'absolute -top-6 bg-amber-50 px-2 text-3xl max-md:-top-5 max-md:text-2xl'
 				)}
 			>
 				{category.name}
@@ -41,11 +41,13 @@
 				{@const initPrice = item.subitems[0].price}
 				<Button class="flex items-start justify-between gap-3 font-light">
 					<div class="flex flex-1 flex-col">
-						<p class={cn('text-xl', debugMode && hasTypos(item.name) && 'bg-red-400')}>
+						<p
+							class={cn('text-xl max-md:text-lg', debugMode && hasTypos(item.name) && 'bg-red-400')}
+						>
 							{item.name}
 						</p>
 						{#if item.subitems.length !== 1}
-							<div class="inline-flex flex-wrap text-stone-400">
+							<div class="inline-flex flex-wrap text-stone-400 max-md:text-sm">
 								{#each item.subitems as subitem, index (subitem.sizeName)}
 									{@const additionalPrice = calculateAdditionalPrice(item.subitems, subitem.price)}
 									<span
@@ -63,7 +65,7 @@
 							</div>
 						{/if}
 					</div>
-					<p class={cn('text-xl', !initPrice && debugMode && 'bg-red-400')}>
+					<p class={cn('text-xl max-md:text-lg', !initPrice && debugMode && 'bg-red-400')}>
 						{initPrice ? `${initPrice}₽` : 'Нет цены'}
 					</p>
 				</Button>
