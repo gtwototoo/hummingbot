@@ -1,8 +1,11 @@
 <script lang="ts">
-	import { cn } from '$lib/helpers/classes';
-	import type { ItemSize } from '$lib/types/iiko.js';
+	import Button from '$lib/components/Button.svelte';
+	import type { ItemSize } from '$lib/types/iiko';
+	import { cn } from '$lib/utils/classMerge';
 
 	let { data } = $props();
+
+	const debugMode = false;
 
 	const calculateAdditionalPrice = (
 		subitems: (Pick<ItemSize, 'sizeName' | 'isHidden'> & { price: number })[],
@@ -23,28 +26,47 @@
 	<meta name="description" content="Svelte demo app" />
 </svelte:head>
 
-<section class="flex flex-col justify-center gap-3">
+<section class="flex flex-col justify-center gap-12 max-lg:pt-2 lg:pt-6">
 	{#each data.menu as category (category.id)}
-		<div class="flex flex-col gap-1 rounded-2xl border border-gray-600 p-4">
-			<h2 class={cn(hasTypos(category.name) && 'bg-red-400')}>{category.name}</h2>
+		<div class="relative flex flex-col gap-1 rounded-2xl border border-stone-500 p-6">
+			<h2
+				class={cn(
+					debugMode && hasTypos(category.name) && 'bg-red-400',
+					'absolute -top-6 bg-amber-50 px-2 text-3xl'
+				)}
+			>
+				{category.name}
+			</h2>
 			{#each category.items as item (item.itemId)}
-				<div class="flex justify-between font-light">
-					<div class="flex flex-col">
-						<p class={cn('text-xl', hasTypos(item.name) && 'bg-red-400')}>{item.name}</p>
+				{@const initPrice = item.subitems[0].price}
+				<Button class="flex items-start justify-between gap-3 font-light">
+					<div class="flex flex-1 flex-col">
+						<p class={cn('text-xl', debugMode && hasTypos(item.name) && 'bg-red-400')}>
+							{item.name}
+						</p>
 						{#if item.subitems.length !== 1}
-							<p class="text-gray-400">
-								{item.subitems
-									.map(({ sizeName, price }) => {
-										const additionalPrice = calculateAdditionalPrice(item.subitems, price);
-
-										return sizeName + (additionalPrice ? ` (+${additionalPrice}₽)` : '');
-									})
-									.join(' / ')}
-							</p>
+							<div class="inline-flex flex-wrap text-stone-400">
+								{#each item.subitems as subitem, index (subitem.sizeName)}
+									{@const additionalPrice = calculateAdditionalPrice(item.subitems, subitem.price)}
+									<span
+										class={cn(
+											'whitespace-nowrap',
+											debugMode && hasTypos(subitem.sizeName) && 'bg-red-400'
+										)}
+									>
+										{subitem.sizeName}{additionalPrice ? ` (+${additionalPrice}₽)` : ''}
+									</span>
+									{#if index !== item.subitems.length - 1}
+										<span class="mx-1.5 text-stone-400">/</span>
+									{/if}
+								{/each}
+							</div>
 						{/if}
 					</div>
-					<p class="text-xl">{item.subitems[0].price}₽</p>
-				</div>
+					<p class={cn('text-xl', !initPrice && debugMode && 'bg-red-400')}>
+						{initPrice ? `${initPrice}₽` : 'Нет цены'}
+					</p>
+				</Button>
 			{/each}
 		</div>
 	{/each}

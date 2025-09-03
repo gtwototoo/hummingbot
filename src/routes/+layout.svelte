@@ -1,26 +1,17 @@
 <script lang="ts">
 	import '../app.css';
-	import { CREATOR_TG_LINK } from '../constants';
+	import Footer from './Footer.svelte';
+	import LeftSide from './LeftSide.svelte';
 
-	let { children } = $props();
+	let { children, data } = $props();
 </script>
 
-<div class="flex min-h-screen gap-6 p-10">
-	<div class="flex flex-col items-center">
-		<header>
-			<p class="text-5xl font-bold">TK13</p>
-		</header>
-		<div class="flex flex-col"></div>
-		<footer>
-			<p class="rounded-lg bg-gray-100 px-2 py-1 text-sm/4 font-bold">
-				Made with ❤️ <br />by
-				<a href={CREATOR_TG_LINK} class="rounded-full bg-gray-950 px-2 py-0.5 text-white">
-					@twototoo
-				</a>
-			</p>
-		</footer>
-	</div>
-	<main class="mx-auto box-border flex max-w-5xl flex-1 flex-col">
+<div
+	class="flex min-h-screen items-start gap-10 max-lg:flex-col max-lg:items-center max-md:p-6 max-sm:p-4 md:p-10"
+>
+	<LeftSide categories={data.menu} />
+	<main class="mx-auto box-border flex max-w-4xl flex-1 flex-col">
 		{@render children()}
 	</main>
+	<Footer class="lg:hidden" />
 </div>
