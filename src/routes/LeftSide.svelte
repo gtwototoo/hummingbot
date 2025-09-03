@@ -18,7 +18,7 @@
 >
 	<div class="absolute inset-0 -z-1 size-full rounded-[inherit] bg-stone-500/10"></div>
 	<header class="flex justify-center self-center p-2">
-		<Logo class="size-20" />
+		<Logo class="size-20 text-stone-800" />
 	</header>
 	<div class="flex flex-wrap px-2 max-lg:justify-center lg:flex-col">
 		{#each categories as category (category.id)}
