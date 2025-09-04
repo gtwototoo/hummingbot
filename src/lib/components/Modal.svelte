@@ -76,17 +76,14 @@
 		<div
 			class={cn(
 				'flex size-full justify-center overflow-auto bg-transparent',
-				innerHeight < offsetHeight ? 'items-start' : 'items-end'
+				innerHeight < offsetHeight ? 'items-start' : 'items-center'
 			)}
 			in:fly={{ y: 100 }}
 		>
 			<button class="fixed size-full" aria-label="Close" onclick={handleClose}></button>
 			<div
 				bind:offsetHeight
-				class={cn(
-					'relative z-10 mt-[50vh] w-full max-w-screen-sm rounded-t-2xl bg-stone-950',
-					classname
-				)}
+				class={cn('relative z-10 m-6 rounded-2xl bg-amber-50 max-sm:m-4', classname)}
 			>
 				{@render children?.({ onclick: handleClose })}
 			</div>
