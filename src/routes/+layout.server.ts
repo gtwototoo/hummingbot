@@ -2,7 +2,6 @@ import IikoClient from '$lib/iiko';
 import type { ExternalMenu } from '$lib/types/iiko';
 import { error } from '@sveltejs/kit';
 import { IIKO_API_KEY, MENU_ID, ORGANIZATION_ID } from '../constants';
-import type { PageServerLoad } from './$types';
 
 const createFormattedMenu = (menu: ExternalMenu) => {
 	const list = menu.itemCategories.map(({ items, name, id }) => {
@@ -28,10 +27,29 @@ const createFormattedMenu = (menu: ExternalMenu) => {
 		};
 	});
 
+	for (const category of list) {
+		if (category.items.length === 1 && category.name === category.items[0].name) {
+			category.items = category.items[0].subitems.map(({ sizeName, price }, index) => {
+				return {
+					itemId: `${category.id}-${index}`,
+					name: sizeName,
+					description: '',
+					subitems: [
+						{
+							sizeName: '',
+							isHidden: false,
+							price
+						}
+					]
+				};
+			});
+		}
+	}
+
 	return list;
 };
 
-export const load: PageServerLoad = async () => {
+export const load = async () => {
 	const iikoClient = new IikoClient(IIKO_API_KEY);
 
 	const menu = await iikoClient.post<ExternalMenu>('menu/by_id', {

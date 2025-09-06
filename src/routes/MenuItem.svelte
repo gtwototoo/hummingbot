@@ -24,23 +24,27 @@
 	};
 
 	const initPrice = $derived(item.subitems[0].price);
+	const visibleSubitems = $derived(item.subitems.filter(({ isHidden }) => !isHidden));
 </script>
 
-<Button class="flex items-start justify-between gap-3 font-light" onclick={() => (active = true)}>
+<Button
+	class="flex items-center justify-between gap-3 p-3 font-light"
+	onclick={() => (active = true)}
+>
 	<div class="flex flex-1 flex-col">
-		<p class={cn('text-xl max-md:text-lg', debugMode && hasTypos(item.name) && 'bg-red-400')}>
+		<p class={cn('text-xl/8 max-md:text-lg', debugMode && hasTypos(item.name) && 'bg-red-400')}>
 			{item.name}
 		</p>
-		{#if item.subitems.length !== 1}
+		{#if !(visibleSubitems.length === 1 && visibleSubitems[0].sizeName === '')}
 			<div class="inline-flex flex-wrap text-stone-400 max-md:text-sm">
-				{#each item.subitems as subitem, index (subitem.sizeName)}
+				{#each visibleSubitems as subitem, index (subitem.sizeName)}
 					{@const additionalPrice = calculateAdditionalPrice(item.subitems, subitem.price)}
 					<span
 						class={cn('whitespace-nowrap', debugMode && hasTypos(subitem.sizeName) && 'bg-red-400')}
 					>
 						{subitem.sizeName}{additionalPrice ? ` (+${additionalPrice}₽)` : ''}
 					</span>
-					{#if index !== item.subitems.length - 1}
+					{#if index !== visibleSubitems.length - 1}
 						<span class="mx-1.5">/</span>
 					{/if}
 				{/each}

@@ -3,6 +3,8 @@
 	import Footer from './Footer.svelte';
 	import LeftSide from './LeftSide.svelte';
 
+	import '../fonts/Montserrat.css';
+
 	let { children, data } = $props();
 </script>
 
