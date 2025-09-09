@@ -1,5 +1,5 @@
 <script lang="ts">
-	import award2gis from '$lib/images/Award2gis.png';
+	import award2gis from '$lib/assets/award2gis.png';
 	import { AWARD_2GIS_LINK } from '../constants';
 </script>
 

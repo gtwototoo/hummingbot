@@ -24,9 +24,7 @@
 			>
 				{category.name}
 			</h2>
-			<div
-				class="flex flex-col divide-y divide-dotted divide-stone-300 border-y border-stone-500/20"
-			>
+			<div class="flex flex-col divide-y divide-dotted divide-stone-300">
 				{#each category.items as item (item.itemId)}
 					<MenuItem {debugMode} {item} />
 				{/each}
