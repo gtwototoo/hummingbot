@@ -15,11 +15,11 @@
 
 <section class="flex flex-col justify-center px-6 max-md:px-4">
 	{#each data.menu as category (category.id)}
-		<div class="relative flex flex-col">
+		<div class="relative flex flex-col" id={category.id}>
 			<h2
 				class={cn(
 					debugMode && hasTypos(category.name) && 'bg-red-400',
-					'w-full bg-amber-50 py-10 text-center text-3xl max-md:text-2xl'
+					'w-full bg-amber-50 py-10 text-center text-3xl max-md:py-6 max-md:text-2xl'
 				)}
 			>
 				{category.name}

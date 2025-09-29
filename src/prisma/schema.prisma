@@ -1,0 +1,71 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Allergen {
+  milk
+  gluten
+  shellfish
+  nuts
+  soybeans
+  eggs
+  fish
+  sugar
+  seeds
+}
+
+model Item {
+  id            Int        @id @default(autoincrement())
+  name          String
+  description   String
+  allergens     Allergen[]
+  orderItemType String
+  itemSizes     ItemSize[]
+}
+
+model ItemSize {
+  id                       Int                 @id @default(autoincrement())
+  sku                      String
+  name                     String
+  sizeCode                 String
+  sizeName                 String
+  isDefault                Boolean
+  isHidden                 Boolean
+  portionWeightGrams       Int
+  iikoId                   String?
+  nutritionPerHundredGrams Json?
+  measureUnitType          String
+  buttonImageUrl           String
+  buttonImageCroppedUrl    String[]
+  price                    Int
+  itemModifierGroups       ItemModifierGroup[]
+}
+
+model ItemModifierGroup {
+  id                                   String       @id @default(cuid())
+  name                                 String
+  description                          String
+  restrictions                         Restrictions
+  canBeDivided                         Boolean
+  itemGroupId                          String
+  childModifiersHaveMinMaxRestrictions Boolean
+  sku: string;
+  items: ModifierItem[];
+}
+
+model iikoItem {
+  id        Int     @id @default(autoincrement())
+  sku       String
+  processed Boolean
+}
+
+model iikoItemSize {
+  id        Int     @id @default(autoincrement())
+  sku       String
+  processed Boolean
+}

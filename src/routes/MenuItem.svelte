@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Button from '$lib/components/Button.svelte';
 	import Modal from '$lib/components/Modal.svelte';
-	import type { Item, ItemSize } from '$lib/types/iiko';
+	import type { Item, ItemSize } from '$lib/types/externalMenu';
 	import { cn } from '$lib/utils/classMerge';
 	import { hasTypos } from '$lib/utils/debug';
 
@@ -24,6 +24,7 @@
 	};
 
 	const initPrice = $derived(item.subitems[0].price);
+	const priceString = $derived(initPrice ? `${initPrice}₽` : 'Нет цены');
 	const visibleSubitems = $derived(item.subitems.filter(({ isHidden }) => !isHidden));
 </script>
 
@@ -52,7 +53,7 @@
 		{/if}
 	</div>
 	<p class={cn('text-xl max-md:text-lg', !initPrice && debugMode && 'bg-red-400')}>
-		{initPrice ? `${initPrice}₽` : 'Нет цены'}
+		{priceString}
 	</p>
 </Button>
 <Modal bind:active class="flex gap-4 p-6 max-md:flex-col max-md:items-center max-md:p-4">
@@ -63,7 +64,7 @@
 	</div>
 	<div class="flex flex-col gap-2 px-4 max-md:items-center">
 		<h2 class="text-3xl max-md:text-2xl">{item.name}</h2>
-		<p class="text-2xl text-stone-700">{initPrice}₽</p>
+		<p class="text-2xl text-stone-700">{priceString}</p>
 		{#if item.subitems.length !== 1}
 			<div class="flex flex-col items-center gap-1">
 				<p class="text-lg text-stone-950">Вариации:</p>

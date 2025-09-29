@@ -14,12 +14,6 @@ a {
 	text-decoration: none;
 }
 
-input,
-button {
-	font-size: inherit;
-	font-family: inherit;
-}
-
 button:focus:not(:focus-visible) {
 	outline: none;
 }
