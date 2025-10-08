@@ -31,7 +31,8 @@
 		<div class="flex justify-start">
 			{#each categories as category (category.id)}
 				<Button
-					class="rounded-full px-3 py-2 text-base whitespace-nowrap transition-colors hover:bg-amber-50"
+					class="menu-item rounded-full px-3 py-2 text-base whitespace-nowrap transition-colors hover:bg-amber-50"
+					id="carousel-{category.id}"
 					onclick={() => scrollToCategory(category.id)}
 				>
 					{category.name}
@@ -42,7 +43,8 @@
 	<div class="flex flex-wrap px-2 max-lg:justify-center max-md:hidden lg:flex-col">
 		{#each categories as category (category.id)}
 			<Button
-				class="rounded-full px-4 py-2 text-base transition-colors hover:bg-amber-50"
+				class="menu-item rounded-full px-4 py-2 text-base transition-colors hover:bg-amber-50"
+				id="menu-{category.id}"
 				onclick={() => scrollToCategory(category.id)}
 			>
 				{category.name}
